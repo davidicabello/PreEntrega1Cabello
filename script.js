@@ -1,18 +1,19 @@
 const $addFamilyMemberButton = document.querySelector('#show-members');
 $addFamilyMemberButton.onclick = function () {
-    const $familyMembers = Number(document.querySelector('#member-amount').value) || '';
-
-    if ($familyMembers === '') {
+    const $familyMembersAmount = Number(document.querySelector('#member-amount').value) || '';
+    if ($familyMembersAmount === '') {
         const $placeHolder = document.querySelector('#member-amount')
         $placeHolder.placeholder = 'Ingresa integrantes'
         return false;
-    } else if ($familyMembers == $familyMembers) {
+    } else if ($familyMembersAmount == $familyMembersAmount) {
         deleteCreatedElements()
-        addFamilyMembers($familyMembers);
+        addFamilyMembers($familyMembersAmount);
         newButton();
         return false;
     }
 }
+
+const $createFamilyCard = document.querySelector('#submitFamilyInfo')
 
 function deleteCreatedElements() {
     deleteCreatedNumberInputs()
@@ -22,9 +23,9 @@ function deleteCreatedElements() {
 }
 
 function deleteCreatedNumberInputs() {
-    const membersAges = document.querySelectorAll('#member-age');
-    for (let i = 0; i < membersAges.length; i++) {
-        membersAges[i].remove();
+    const familyMembersAges = document.querySelectorAll('#member-age');
+    for (let i = 0; i < familyMembersAges.length; i++) {
+        familyMembersAges[i].remove();
     }
 }
 
@@ -71,7 +72,6 @@ function addFamilyMembers(amount) {
         $members.appendChild(newInput);
         $members.appendChild(newLabelTwo)
         $members.appendChild(newInputTwo);
-
     }
 }
 
@@ -102,9 +102,7 @@ function getAges() {
     let ages = [];
     for (let i = 0; i < membersAges.length; i++) {
         ages.push(Number(membersAges[i].value));
-
     }
-
     return ages;
 }
 
@@ -115,7 +113,6 @@ function calculateAverage(numbers) {
     for (let i = 0; i < numbers.length; i++) {
         sum += numbers[i];
     }
-
     return sum / numbers.length;
 }
 
@@ -126,7 +123,6 @@ function findMinor(numbers) {
             minorNumber = numbers[i];
         }
     }
-
     return minorNumber;
 }
 
@@ -137,8 +133,62 @@ function findBiggest(numbers) {
             biggestNumber = numbers[i];
         }
     }
-
     return biggestNumber;
 }
+
+
+// CREAR TARJETA INFORMACION FAMILIAR 
+
+// #submitFamilyInfo button
+// #familyInfo form
+// #familyMemberName
+
+class FamilyMemberInformation {
+    constructor(name, lastname, birthyear, city) {
+        this.name = name,
+            this.lastname = lastname,
+            this.birthyear = birthyear,
+            this.city = city
+    }
+}
+
+FamilyMemberInformation.prototype.generarTarjetaHTML = function () {
+    // Crear un elemento div para la tarjeta
+    var tarjeta = document.createElement('div');
+    tarjeta.classList.add('tarjeta');
+
+    // Crear los elementos HTML para mostrar la información del miembro de la familia
+    var nombreElement = document.createElement('h2');
+    nombreElement.textContent = this.name + ' ' + this.lastname;
+
+    var añoNacimientoElement = document.createElement('p');
+    añoNacimientoElement.textContent = 'Año de nacimiento: ' + this.birthyear;
+
+    var ciudadElement = document.createElement('p');
+    ciudadElement.textContent = 'Ciudad: ' + this.city;
+
+    // Añadir los elementos al contenedor de la tarjeta
+    tarjeta.appendChild(nombreElement);
+    tarjeta.appendChild(añoNacimientoElement);
+    tarjeta.appendChild(ciudadElement);
+
+    // Agregar la tarjeta al contenedor en el HTML
+    var tarjetasContainer = document.getElementById('familyMembersInformationCard');
+    tarjetasContainer.appendChild(tarjeta);
+};
+
+const familyMemberInfoForm = document.querySelector('#familyInfo');
+const familyMembersInformationCardDiv = document.querySelector('#familyMembersInformationCard');
+familyMemberInfoForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    let familyMemberName = document.querySelector('#familyMemberName').value;
+    let familyMemberLastName = document.querySelector('#familyMemberLastName').value;
+    let familyMemberBirthYear = parseInt(document.querySelector('#familyMemberBirthYear').value);
+    let familyMemberCity = document.querySelector('#familyMemberCity').value;
+    let familyMemberFinalInfo = new FamilyMemberInformation(familyMemberName, familyMemberLastName, familyMemberBirthYear, familyMemberCity);
+    familyMemberFinalInfo.generarTarjetaHTML();
+});
+
+console.log(familyMemberFinalInfo)
 
 
