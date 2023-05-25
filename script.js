@@ -152,29 +152,25 @@ class FamilyMemberInformation {
     }
 }
 
-FamilyMemberInformation.prototype.generarTarjetaHTML = function () {
-    // Crear un elemento div para la tarjeta
-    var tarjeta = document.createElement('div');
-    tarjeta.classList.add('tarjeta');
+FamilyMemberInformation.prototype.createHtmlCard = function () {
+    let card = document.createElement('div');
+    card.classList.add('card');
 
-    // Crear los elementos HTML para mostrar la información del miembro de la familia
-    var nombreElement = document.createElement('h2');
-    nombreElement.textContent = this.name + ' ' + this.lastname;
+    let nameElement = document.createElement('h2');
+    nameElement.textContent = this.name + ' ' + this.lastname;
 
-    var añoNacimientoElement = document.createElement('p');
-    añoNacimientoElement.textContent = 'Año de nacimiento: ' + this.birthyear;
+    let birthYearElement = document.createElement('p');
+    birthYearElement.textContent = 'Año de nacimiento: ' + this.birthyear;
 
-    var ciudadElement = document.createElement('p');
-    ciudadElement.textContent = 'Ciudad: ' + this.city;
+    let cityElement = document.createElement('p');
+    cityElement.textContent = 'Ciudad: ' + this.city;
 
-    // Añadir los elementos al contenedor de la tarjeta
-    tarjeta.appendChild(nombreElement);
-    tarjeta.appendChild(añoNacimientoElement);
-    tarjeta.appendChild(ciudadElement);
+    card.appendChild(nameElement);
+    card.appendChild(birthYearElement);
+    card.appendChild(cityElement);
 
-    // Agregar la tarjeta al contenedor en el HTML
-    var tarjetasContainer = document.getElementById('familyMembersInformationCard');
-    tarjetasContainer.appendChild(tarjeta);
+    let cardsContainer = document.getElementById('familyMembersInformationCard');
+    cardsContainer.appendChild(card);
 };
 
 const familyMemberInfoForm = document.querySelector('#familyInfo');
@@ -186,7 +182,7 @@ familyMemberInfoForm.addEventListener('submit', function (event) {
     let familyMemberBirthYear = parseInt(document.querySelector('#familyMemberBirthYear').value);
     let familyMemberCity = document.querySelector('#familyMemberCity').value;
     let familyMemberFinalInfo = new FamilyMemberInformation(familyMemberName, familyMemberLastName, familyMemberBirthYear, familyMemberCity);
-    familyMemberFinalInfo.generarTarjetaHTML();
+    familyMemberFinalInfo.createHtmlCard();
 });
 
 console.log(familyMemberFinalInfo)
